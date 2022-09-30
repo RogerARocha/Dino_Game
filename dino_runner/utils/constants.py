@@ -9,7 +9,7 @@ FPS = 30
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 
 # Assets Constants
-#ICON = pygame.image.load(os.path.join(IMG_DIR, "DinoWallpaper.png"))
+ICON2 = pygame.image.load(os.path.join(IMG_DIR, "DinoWallpaper.png"))
 ICON = pygame.image.load(os.path.join(IMG_DIR, "rsz_dinowallpaper.png"))
 
 RUNNING = [
@@ -71,3 +71,7 @@ BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
 DEFAULT_TYPE = "default"
+
+GAMEOVER = pygame.image.load(os.path.join(IMG_DIR, 'Other/GameOver.png'))
+
+DINO_START = pygame.image.load(os.path.join(IMG_DIR, 'Dino/DinoStart.png'))

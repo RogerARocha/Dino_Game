@@ -13,5 +13,5 @@ class Cactus(Obstacle):
     def __init__(self, cactus_type):
         image, cactus_pos = self.CACTUS[cactus_type]
         self.type = random.randint(0,2)
-        super().__init__(image, self.type)
+        super().__init__(image, self.type) 
         self.rect.y = cactus_pos
