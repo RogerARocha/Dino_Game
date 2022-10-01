@@ -1,8 +1,10 @@
 from cgitb import text
 import pygame
-from dino_runner.Obstacles.Obstacle_Manager import ObsManager
+import random
+from dino_runner.components.Obstacles.Obstacle_Manager import ObsManager
 from dino_runner.components.Dino import Dino
-from dino_runner.utils.constants import BG, DINO_START, GAMEOVER, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
+from dino_runner.components.Power_Ups.Power_Manager import PupsManager
+from dino_runner.utils.constants import BG, DINO_START, GAMEOVER, ICON, RESET, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, CLOUD
 FONT_STYLE = 'freesansbold.ttf'
 
 
@@ -17,8 +19,11 @@ class Game:
         self.game_speed = 20
         self.x_pos_bg = 0
         self.y_pos_bg = 380
+        self.x_pos_cloud = 1200
+        self.y_pos_cloud = 200
         self.player = Dino()
         self.obstacle_mg = ObsManager()
+        self.powerUp_mg = PupsManager()
         self.running = False
         self.score = 0
         self.death_count = 0
@@ -37,6 +42,7 @@ class Game:
         # Game loop: events - update - draw
         self.score = 0
         self.obstacle_mg.obs_reset()
+        self.powerUp_mg.Pups_reset()
         self.playing = True
         while self.playing:
             self.events()
@@ -61,18 +67,23 @@ class Game:
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
         self.obstacle_mg.update(self)
+        self.powerUp_mg.update(self, self.score)
+        self.player.check_intangible()
         if self.score >= self.record:
             self.record = self.score
+        
 
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
         self.draw_background()
+        self.draw_clouds()
 
         self.draw_score()
 
         self.player.draw(self.screen)
         self.obstacle_mg.draw(self.screen)
+        self.powerUp_mg.draw(self.screen)
 
         pygame.display.update()
         pygame.display.flip()
@@ -86,6 +97,18 @@ class Game:
             self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed
+
+
+    def draw_clouds(self):    
+        image_width = CLOUD.get_width()
+        self.screen.blit(CLOUD, (self.x_pos_cloud, self.y_pos_cloud))   
+        if self.x_pos_cloud < -image_width:
+            cld = random.randint(1000,2000)
+            self.x_pos_cloud = cld
+            self.screen.blit(CLOUD, (self.x_pos_cloud, self.y_pos_cloud))
+   
+            
+        self.x_pos_cloud -= self.game_speed
 
     def draw_score(self):
         font = pygame.font.Font(FONT_STYLE, 18)
@@ -122,7 +145,8 @@ class Game:
             text_rect.center = (SCREEN_WIDTH//2, SCREEN_HEIGHT//2)
             self.screen.blit(text, text_rect)
             pygame.time.delay(200)
-            self.screen.blit(DINO_START, ( 80  ,  300))
+            self.screen.blit(DINO_START, ( 80  ,  320))
+            self.screen.blit(BG, (0 ,380))
             
         else:
             font = pygame.font.Font(FONT_STYLE, 20)
@@ -150,10 +174,7 @@ class Game:
             self.screen.blit(text, text_rect)
 
             self.screen.blit(GAMEOVER, (SCREEN_WIDTH//2 -191, SCREEN_HEIGHT//2 - 120 ))
-
-        
-        
-       
+            self.screen.blit(RESET, (SCREEN_WIDTH//2 - 40, SCREEN_HEIGHT//2 -90 ))
 
 
         pygame.display.update()

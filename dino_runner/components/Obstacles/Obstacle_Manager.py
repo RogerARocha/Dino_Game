@@ -1,9 +1,8 @@
 import pygame
 import random
-from dino_runner.Obstacles.bird import bird
-
-from dino_runner.Obstacles.cactus import Cactus
-from dino_runner.utils.constants import LARGE_CACTUS, SMALL_CACTUS, BIRD
+from dino_runner.components.Obstacles.bird import bird
+from dino_runner.components.Obstacles.cactus import Cactus
+from dino_runner.utils.constants import DINO_DEAD, LARGE_CACTUS, SMALL_CACTUS, BIRD
 
 
 
@@ -35,11 +34,16 @@ class ObsManager:
         for obstacle in self.obstacles:
             obstacle.update(game.game_speed, self.obstacles)
             if game.player.dino_rect.colliderect(obstacle):
-                pygame.time.delay(700)
-                game.playing = False
                 
-                game.death_count += 1
-                game.game_speed = 20
+                
+                if not game.player.shield :
+                    pygame.time.delay(700)
+                    game.playing = False
+                    game.death_count += 1
+                    game.game_speed = 20
+                else:
+                    self.obstacles.remove(obstacle)
+
                 break          
                       
                 
