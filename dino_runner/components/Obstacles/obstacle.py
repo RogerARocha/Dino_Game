@@ -5,8 +5,7 @@ from pygame.sprite import Sprite
 from dino_runner.utils.constants import  BIRD, SCREEN_WIDTH
 
 
-class Obstacle(Sprite):
-    
+class Obstacle(Sprite): 
 
     def __init__(self, image, type, bird = False):
         if bird:
@@ -19,8 +18,6 @@ class Obstacle(Sprite):
         self.rect.x = SCREEN_WIDTH
         self.fly_index = 0
         
-      
-
     def update(self, game_speed, obstacles):
         self.rect.x -= game_speed
         if type(self.type) == list:
@@ -44,6 +41,4 @@ class Obstacle(Sprite):
             screen.blit(self.image[self.type], self.rect)
         else:
             screen.blit(self.image, self.rect)
-
-
 

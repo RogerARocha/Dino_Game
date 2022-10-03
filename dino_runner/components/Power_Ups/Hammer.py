@@ -5,7 +5,7 @@ class Hammer(PowerUp):
 
 
     def __init__(self, image):
-        image = HAMMER
+        
         
         self.type = HAMMER_TYPE
         super().__init__(image, self.type) 

@@ -3,7 +3,6 @@ from dino_runner.utils.constants import BIRD
 import random
 
 
-
 class bird(Obstacle):
     
 
@@ -18,18 +17,3 @@ class bird(Obstacle):
         self.type = BIRD
         super().__init__(BIRD, self.type, True)
         self.rect.y = bird_pos
-
-    
-       
-
-    
-
-        
-    
-        
-    
-        
-    
-    
-
-    

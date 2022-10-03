@@ -7,7 +7,7 @@ class Shield(PowerUp):
 
 
     def __init__(self, image):
-        image = SHIELD
+        
         
         self.type = SHIELD_TYPE
         super().__init__(image, self.type) 
